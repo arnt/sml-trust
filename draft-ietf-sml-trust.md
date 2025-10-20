@@ -193,8 +193,13 @@ checking. Some may be 100% display-only. Is additional guidance for
 display-only data worth the complexity?
 
 Open issue 2: Really SHOULD? I (Arnt) don't see this guidance as
-clearly right. It doesn't match existing code well, and doesn't seem
-to be where we want to go.
+clearly right. It doesn't match existing code all that well, and
+doesn't seem to be where we want to go.
+
+Open issue 3: This does not distinguish between
+- automatic processing
+- actions available to a user in e.g. a MUA
+- formal display
 
 ## Inlining data
 
