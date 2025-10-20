@@ -18,6 +18,17 @@ Abstract
    structured email and provides recommendations for message user agents
    on how to deal with structured data in email messages.
 
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Discussion of this document takes place on the Structured Email
+   Working Group mailing list (sml@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/sml/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/arnt/sml-trust.
+
 Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
@@ -69,8 +80,7 @@ Table of Contents
      8.1.  Normative References
      8.2.  Informative References
    Appendix A.  Acknowledgements
-   Appendix B.  Notes to the RFC Editor
-   Appendix C.  Note to self
+   Appendix B.  Note to self
    Authors' Addresses
 
 1.  Introduction
@@ -221,8 +231,12 @@ Table of Contents
    guidance for display-only data worth the complexity?
 
    Open issue 2: Really SHOULD?  I (Arnt) don't see this guidance as
-   clearly right.  It doesn't match existing code well, and doesn't seem
-   to be where we want to go.
+   clearly right.  It doesn't match existing code all that well, and
+   doesn't seem to be where we want to go.
+
+   Open issue 3: This does not distinguish between - automatic
+   processing - actions available to a user in e.g. a MUA - formal
+   display
 
 4.2.  Inlining data
 
@@ -293,11 +307,9 @@ Appendix A.  Acknowledgements
    Lisa Dusseault and others whose suggestions were made before this
    paragraph was started.
 
-Appendix B.  Notes to the RFC Editor
+Appendix B.  Note to self
 
-   Please remove this section and everything after it.
-
-Appendix C.  Note to self
+   RFC Editor: Please remove this section.
 
    The charter has this to say about what this document should contain:
    "Recommendations for security and trust mechanisms that should be
