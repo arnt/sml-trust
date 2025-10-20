@@ -1,0 +1,322 @@
+
+
+
+
+sml                                                         H.-J. Happel
+Internet-Draft                                                   audriga
+Intended status: Standards Track                          A. Gulbrandsen
+Expires: 23 April 2026                                             ICANN
+                                                         20 October 2025
+
+
+         Trust and security considerations for Structured Email
+                      draft-ietf-sml-trust-latest
+
+Abstract
+
+   This document discusses trust and security considerations for
+   structured email and provides recommendations for message user agents
+   on how to deal with structured data in email messages.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 23 April 2026.
+
+Copyright Notice
+
+   Copyright (c) 2025 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Requirements Language
+   3.  Types of security concerns
+     3.1.  Spam/virus filters
+     3.2.  Formal display of data
+     3.3.  Automated processing
+     3.4.  External references
+     3.5.  Social engineering
+   4.  Trust mechanisms
+     4.1.  Processing structured data
+     4.2.  Inlining data
+   5.  Security considerations
+   6.  Privacy considerations
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
+   Appendix A.  Acknowledgements
+   Appendix B.  Notes to the RFC Editor
+   Appendix C.  Note to self
+   Authors' Addresses
+
+1.  Introduction
+
+   Structured email, as described in [I-D.sml-structured-email], makes
+   the content of some email messages machine-readable, such that user
+   agents can provide higher-level functions than displaying/replying,
+   for example "add this to calendar".
+
+   Naturally, new functions bring new trust and security considerations,
+   or bring new urgency to existing issues.  This document recommends
+   security and trust mechanisms that should be applied when processing
+   machine-readable content in email messages, both by senders and
+   receivers.
+
+2.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Types of security concerns
+
+   This section gives an overview of the various types of security and
+   privacy concerns that arise when email messages contain structured
+   data.  The same concerns often arise for other messages, of course.
+
+   This section is informative.  Or even unnecessary.
+
+3.1.  Spam/virus filters
+
+   Structured email increases the syntactical and semantic complexity of
+   email messages.  If a spam/virus filter parses structured email in
+   order to block malevolent messages, the filter's parser will
+   necessarily differ from that of the MUA that will finally act on the
+   structured data, creating a risk of misclassification.
+
+   These risks are elevated when a structured data format has complex
+   syntax, syntax that offers several optional or alternative ways to
+   express the same substance, and of course by parsers that deviate
+   from the specification for better bug compatibiloty.
+
+3.2.  Formal display of data
+
+   A common example is displaying a received calendar invitation using
+   dates/times in the recipient's timezone, in a fixed format.
+
+   Formal display introduces additional possibilities of discrepancy
+   between the different representations.  For example, a single message
+   might contains a multipart/alternative containing a text/plain
+   description of a flight itinerary, a text/html description of the
+   same itinerary, and a structured representation.  All three may be
+   different, leading to confusion (and in this example, perhaps to
+   missing a flight).
+
+   Unintentional discrepancy is a risk for senders; some recipients may
+   be misinformed.
+
+   If a message is sent to a group and there is a discrepancy, different
+   members of the group may see it differently.
+
+   If a particular MUA displays the formal representation within the
+   message, a malevolent sender could try to mimic the visual
+   representation using HTML with CSS, but with misleading content.
+
+3.3.  Automated processing
+
+   Automated processing covers actions that are taken as soon as the
+   message arrives rather than when a human user reads the message.  For
+   example, a user might want flight reservations to be automatically
+   added to a travel itinerary application and/or a calendar.
+
+   Such automation could be a custom MUA feature or a future extension
+   of the Sieve email filtering language ([RFC5228]).  A related example
+   for abuse in automated processing is calendar spam ([CalSpam]).
+
+3.4.  External references
+
+   Email messages with a text/html body part ("HTML email messages") may
+   contain image resources that link to web servers.  Such links can be
+   used for tracking user interaction with the message.
+
+   Similar concerns apply to structured data types which include image
+   references, such as the cover image of a music album or the teaser
+   image of a news article.
+
+   RDF structured data can be partial by design and include references
+   to additional data.  Using a "follow your nose" approach, tools can
+   follow URL references to obtain further structured data concerning a
+   resource.  For example, a piece of structured data about an article
+   could reference the article's authors only by URL.  For a meaningful
+   processing of author information, one might try to obtain further
+   data using that URL.
+
+3.5.  Social engineering
+
+   While the risks of social engineering are hardly new and the human-
+   readable text in a message can in principle be used to persuade the
+   human reader to do anything, structured data widens the variety of
+   actions the human reader can easily perform.  If there are more
+   buttons to click, then there's also a greater variety of attacks.
+
+   Put differently: A user who might not be able to follow the
+   instructions in a long and involved text-based social engineering
+   attack may be able to follow simple instructions such as "click this
+   then that".
+
+4.  Trust mechanisms
+
+   Several implementations of structured email restrict processing to
+   messages that are particularly trusted.  That is to say, an incoming
+   message is in one of these three categories:
+
+   1.  Spam.  Structured data is not processed.
+
+   2.  Ordinary.  Structured data is not processed.
+
+   3.  Trusted.  Structured data is processed.
+
+   This section gives an overview of the trust mechanisms used to
+   differentiate between 2 and 3.
+
+   It does not attempt to describe whether a trust-based mechanism is
+   appopriate in a particular case.
+
+4.1.  Processing structured data
+
+   MUAs SHOULD consider structured data in incoming email messages only
+   if either of these criteria hold:
+
+   *  The sender is trusted (e.g., part of the user's address book) and
+      the messsage either contains a valid personal or domain signature.
+
+   *  The message is part of an ongoing thread with a trusted sender.
+
+   *  The message's content indicate a connection with an older, trusted
+      message.  For example, if a calendar invitation was accepted, then
+      updates or responses for the same event are connected with the
+      original.
+
+   If none of these criteria is fulfilled, MUAs should fall back to
+   alternative presentations, typically "text/html".
+
+   Open issue 1: It's not clear that all types of structured data
+   require checking.  Some may be 100% display-only.  Is additional
+   guidance for display-only data worth the complexity?
+
+   Open issue 2: Really SHOULD?  I (Arnt) don't see this guidance as
+   clearly right.  It doesn't match existing code well, and doesn't seem
+   to be where we want to go.
+
+4.2.  Inlining data
+
+   Structured data included in an email message SHOULD be self-contained
+   in order to avoid privacy problems.  This implies that if an MUA is
+   able to provide meaningful user interaction (rather than mere
+   display), then the data SHOULD be self-contained, such that the
+   interaction will not need referenced resources from the web.
+
+5.  Security considerations
+
+   Security considerations are a core subject of this document.
+
+6.  Privacy considerations
+
+   Privacy considerations are a core subject of this document.
+
+7.  IANA Considerations
+
+   This document has no IANA actions at this time.
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+8.2.  Informative References
+
+   [I-D.sml-structured-email]
+              "*** BROKEN REFERENCE ***".
+
+   [RFC5228]  Guenther, P., Ed. and T. Showalter, Ed., "Sieve: An Email
+              Filtering Language", RFC 5228, DOI 10.17487/RFC5228,
+              January 2008, <https://www.rfc-editor.org/rfc/rfc5228>.
+
+   [RFC6132]  George, R. and B. Leiba, "Sieve Notification Using
+              Presence Information", RFC 6132, DOI 10.17487/RFC6132,
+              July 2011, <https://www.rfc-editor.org/rfc/rfc6132>.
+
+   [RFC6134]  Melnikov, A. and B. Leiba, "Sieve Extension: Externally
+              Stored Lists", RFC 6134, DOI 10.17487/RFC6134, July 2011,
+              <https://www.rfc-editor.org/rfc/rfc6134>.
+
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, DOI 10.17487/RFC7942, July 2016,
+              <https://www.rfc-editor.org/rfc/rfc7942>.
+
+   [CalSpam]  "Calendar operator practices — Guidelines to protect
+              against calendar abuse", n.d.,
+              <https://standards.calconnect.org/csd/cc-18003.html>.
+
+   [MachineReadable]
+              "NIST IR 7511 Rev 4", n.d.,
+              <https://csrc.nist.gov/glossary/term/Machine_Readable>.
+
+Appendix A.  Acknowledgements
+
+   The authors wish to thank Ben Bucksch, Alexey Melnikov, Phillip Tao,
+   Lisa Dusseault and others whose suggestions were made before this
+   paragraph was started.
+
+Appendix B.  Notes to the RFC Editor
+
+   Please remove this section and everything after it.
+
+Appendix C.  Note to self
+
+   The charter has this to say about what this document should contain:
+   "Recommendations for security and trust mechanisms that should be
+   applied when processing machine-readable content in email messages"
+   and "security and trust recommendations to prevent abuse of
+   structured email".  No more, no less.
+
+Authors' Addresses
+
+   Hans-Joerg Happel
+   audriga
+   Email: happel@audriga.com
+   URI:   https://www.audriga.com
+
+
+   Arnt Gulbrandsen
+   ICANN
+   6 Rond Point Schumann, Bd. 1
+   1040 Brussels
+   Belgium
+   Email: arnt@gulbrandsen.priv.no
+   URI:   https://icann.org/ua
