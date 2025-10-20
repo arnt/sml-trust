@@ -1,0 +1,7 @@
+<note title="Discussion Venues" removeInRFC="true">
+<t>Discussion of this document takes place on the
+    Structured Email Working Group mailing list (sml@ietf.org),
+    which is archived at <eref target="https://mailarchive.ietf.org/arch/browse/sml/"/>.</t>
+<t>Source for this draft and an issue tracker can be found at
+    <eref target="https://github.com/arnt/sml-trust"/>.</t>
+</note>
