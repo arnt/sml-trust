@@ -14,10 +14,6 @@ lang: en
 author:
 - name: Hans-Joerg Happel
   org: audriga
-  street:
-  city:
-  code:
-  country:
   email: happel@audriga.com
   uri: https://www.audriga.com
 - name: Arnt Gulbrandsen
@@ -228,11 +224,9 @@ The authors wish to thank Ben Bucksch, Alexey Melnikov, Phillip Tao,
 Lisa Dusseault and others whose suggestions were made before this
 paragraph was started.
 
-# Notes to the RFC Editor
-
-Please remove this section and everything after it.
-
 # Note to self
+
+RFC Editor: Please remove this section.
 
 The charter has this to say about what this document should contain:
 "Recommendations for security and trust mechanisms that should be
