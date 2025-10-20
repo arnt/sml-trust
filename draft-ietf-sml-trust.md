@@ -3,7 +3,7 @@ stand_alone: true
 ipr: trust200902
 cat: std
 submissiontype: IETF
-area: Applications
+area: "Applications and Real-Time"
 wg: sml
 
 docname: draft-ietf-sml-trust-latest
