@@ -188,6 +188,14 @@ if either of these criteria hold:
 If none of these criteria is fulfilled, MUAs should fall back to
 alternative presentations, typically "text/html".
 
+MUAs that also handle calendar invitations/updates SHOULD aim to use a
+similar test perform formal display as for calendar invitations.
+
+Structured data that requires or suggests automatic processing may
+benefit from additional precautions before acting on the message.
+Documents that specify such data types should discuss how recipients
+should decide whether to act.
+
 Open issue 1: It's not clear that all types of structured data require
 checking. Some may be 100% display-only. Is additional guidance for
 display-only data worth the complexity?
@@ -200,6 +208,9 @@ Open issue 3: This does not distinguish between
 - automatic processing
 - actions available to a user in e.g. a MUA
 - formal display
+
+Open issue 4: At some point this document needs to mention JSON Web
+Signatures and RFC 7519, ether to use or to ignore.
 
 ## Inlining data
 
@@ -226,8 +237,8 @@ This document has no IANA actions at this time.
 # Acknowledgements
 
 The authors wish to thank Ben Bucksch, Alexey Melnikov, Phillip Tao,
-Lisa Dusseault and others whose suggestions were made before this
-paragraph was started.
+Lisa Dusseault, Orie Steele, Daniel Kahn Gillmor, and others whose
+suggestions were made before this paragraph was started.
 
 # Note to self
 
