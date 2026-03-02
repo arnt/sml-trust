@@ -5,8 +5,8 @@
 sml                                                         H.-J. Happel
 Internet-Draft                                                   audriga
 Intended status: Standards Track                          A. Gulbrandsen
-Expires: 23 April 2026                                             ICANN
-                                                         20 October 2025
+Expires: 3 September 2026                                          ICANN
+                                                            2 March 2026
 
 
          Trust and security considerations for Structured Email
@@ -44,11 +44,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -226,6 +226,14 @@ Table of Contents
    If none of these criteria is fulfilled, MUAs should fall back to
    alternative presentations, typically "text/html".
 
+   MUAs that also handle calendar invitations/updates SHOULD aim to use
+   a similar test perform formal display as for calendar invitations.
+
+   Structured data that requires or suggests automatic processing may
+   benefit from additional precautions before acting on the message.
+   Documents that specify such data types should discuss how recipients
+   should decide whether to act.
+
    Open issue 1: It's not clear that all types of structured data
    require checking.  Some may be 100% display-only.  Is additional
    guidance for display-only data worth the complexity?
@@ -237,6 +245,9 @@ Table of Contents
    Open issue 3: This does not distinguish between - automatic
    processing - actions available to a user in e.g. a MUA - formal
    display
+
+   Open issue 4: At some point this document needs to mention JSON Web
+   Signatures and RFC 7519, ether to use or to ignore.
 
 4.2.  Inlining data
 
@@ -304,8 +315,8 @@ Table of Contents
 Appendix A.  Acknowledgements
 
    The authors wish to thank Ben Bucksch, Alexey Melnikov, Phillip Tao,
-   Lisa Dusseault and others whose suggestions were made before this
-   paragraph was started.
+   Lisa Dusseault, Orie Steele, Daniel Kahn Gillmor, and others whose
+   suggestions were made before this paragraph was started.
 
 Appendix B.  Note to self
 
