@@ -72,7 +72,7 @@ This section gives an overview of the various types of security and
 privacy concerns that arise when email messages contain structured
 data. The same concerns often arise for other messages, of course.
 
-This section is informative. Or even unnecessary.
+This section is informative.
 
 ## Spam/virus filters
 
@@ -109,6 +109,13 @@ members of the group may see it differently.
 If a particular MUA displays the formal representation within the
 message, a malevolent sender could try to mimic the visual
 representation using HTML with CSS, but with misleading content.
+
+## Additional user interface options
+
+Structured mail processing may provide the receiving user with
+additional commands. Returning to the calendar example, many MUAs
+provide the user with additional commands to add something to a
+calendar.
 
 ## Automated processing
 
@@ -172,11 +179,18 @@ appopriate in a particular case.
 
 ## Processing structured data
 
-MUAs SHOULD consider structured data in incoming email messages only
-if either of these criteria hold:
+MUAs SHOULD display structured data in incoming email messages only if
+any of these criteria hold:
+
+* Processing the data offers no additional attack surface compared to
+  displaying the HTML in which the structured data is embedded. This
+  may often be the case for formal display.
+
+* Only for MUAs that process calendar invitations/updates: The MUA
+  would process a calendar invitation in the same message.
 
 * The sender is trusted (e.g., part of the user's address book) and
-  the messsage either contains a valid personal or domain signature.
+  the messsage contains a valid personal or domain signature.
 
 * The message is part of an ongoing thread with a trusted sender.
 
@@ -185,31 +199,12 @@ if either of these criteria hold:
   updates or responses for the same event are connected with the
   original.
 
-If none of these criteria is fulfilled, MUAs should fall back to
-alternative presentations, typically "text/html".
-
-MUAs that also handle calendar invitations/updates SHOULD aim to use a
-similar test perform formal display as for calendar invitations.
-
 Structured data that requires or suggests automatic processing may
 benefit from additional precautions before acting on the message.
 Documents that specify such data types should discuss how recipients
 should decide whether to act.
 
-Open issue 1: It's not clear that all types of structured data require
-checking. Some may be 100% display-only. Is additional guidance for
-display-only data worth the complexity?
-
-Open issue 2: Really SHOULD? I (Arnt) don't see this guidance as
-clearly right. It doesn't match existing code all that well, and
-doesn't seem to be where we want to go.
-
-Open issue 3: This does not distinguish between
-- automatic processing
-- actions available to a user in e.g. a MUA
-- formal display
-
-Open issue 4: At some point this document needs to mention JSON Web
+Open issue: At some point this document needs to mention JSON Web
 Signatures and RFC 7519, ether to use or to ignore.
 
 ## Inlining data
