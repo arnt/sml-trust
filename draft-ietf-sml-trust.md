@@ -209,11 +209,11 @@ Signatures and RFC 7519, ether to use or to ignore.
 
 ## Inlining data
 
-Structured data included in an email message SHOULD be self-contained
-in order to avoid privacy problems.  This implies that if an MUA is
-able to provide meaningful user interaction (rather than mere
-display), then the data SHOULD be self-contained, such that the
-interaction will not need referenced resources from the web.
+Structured data included in an email message SHOULD be self-contained in
+order to avoid privacy problems.  This implies that if an MUA is able to
+provide meaningful user interaction (rather than mere display), then the
+data SHOULD be self-contained, such that the interaction will not need
+referenced resources from the web.
 
 # Security considerations
 
