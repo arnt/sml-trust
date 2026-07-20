@@ -85,7 +85,7 @@ structured data, creating a risk of misclassification.
 These risks are elevated when a structured data format has complex
 syntax, syntax that offers several optional or alternative ways to
 express the same substance, and of course by parsers that deviate from
-the specification for better bug compatibiloty.
+the specification for better bug compatibility.
 
 ## Formal display of data
 
@@ -163,7 +163,7 @@ then that".
 
 Several implementations of structured email restrict processing to
 messages that are particularly trusted. That is to say, an incoming
-message is in one of these three categories:
+message may fall into one of these three categories:
 
 1. Spam. Structured data is not processed.
 
