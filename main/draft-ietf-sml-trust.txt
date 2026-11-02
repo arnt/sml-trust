@@ -5,8 +5,8 @@
 sml                                                         H.-J. Happel
 Internet-Draft                                                   audriga
 Intended status: Standards Track                          A. Gulbrandsen
-Expires: 14 November 2026                                          ICANN
-                                                             13 May 2026
+Expires: 6 May 2027                                                ICANN
+                                                         2 November 2026
 
 
          Trust and security considerations for Structured Email
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 November 2026.
+   This Internet-Draft will expire on 6 May 2027.
 
 Copyright Notice
 
@@ -73,7 +73,8 @@ Table of Contents
      3.6.  Social engineering
    4.  Trust mechanisms
      4.1.  Processing structured data
-     4.2.  Inlining data
+     4.2.  Signatures
+     4.3.  Inlining data
    5.  Security considerations
    6.  Privacy considerations
    7.  IANA Considerations
@@ -86,10 +87,10 @@ Table of Contents
 
 1.  Introduction
 
-   Structured email, as described in [I-D.sml-structured-email], makes
-   the content of some email messages machine-readable, such that user
-   agents can provide higher-level functions than displaying/replying,
-   for example "add this to calendar".
+   Structured email, as described in [I-D.ietf-sml-structured-email],
+   makes the content of some email messages machine-readable, such that
+   user agents can provide higher-level functions than displaying/
+   replying, for example "add this to calendar".
 
    Naturally, new functions bring new trust and security considerations,
    or bring new urgency to existing issues.  This document recommends
@@ -124,7 +125,7 @@ Table of Contents
    These risks are elevated when a structured data format has complex
    syntax, syntax that offers several optional or alternative ways to
    express the same substance, and of course by parsers that deviate
-   from the specification for better bug compatibiloty.
+   from the specification for better bug compatibility.
 
 3.2.  Formal display of data
 
@@ -202,7 +203,7 @@ Table of Contents
 
    Several implementations of structured email restrict processing to
    messages that are particularly trusted.  That is to say, an incoming
-   message is in one of these three categories:
+   message may fall into one of these three categories:
 
    1.  Spam.  Structured data is not processed.
 
@@ -228,8 +229,14 @@ Table of Contents
    *  Only for MUAs that process calendar invitations/updates: The MUA
       would process a calendar invitation in the same message.
 
-   *  The sender is trusted (e.g., part of the user's address book) and
-      the messsage contains a valid personal or domain signature.
+   *  The sender is trusted and the message contains a valid personal or
+      domain signature.  (This document does not describe any conditions
+      for whether to trust senders.)
+
+   *  The sender is trusted and the message contains a valid personal or
+      domain DKIM signature (see [RFC6376]).
+
+   *  The structured data is signed using JWS and the signer is trusted.
 
    *  The message is part of an ongoing thread with a trusted sender.
 
@@ -243,10 +250,35 @@ Table of Contents
    Documents that specify such data types should discuss how recipients
    should decide whether to act.
 
-   Open issue: At some point this document needs to mention JSON Web
-   Signatures and RFC 7519, ether to use or to ignore.
+4.2.  Signatures
 
-4.2.  Inlining data
+   Two signature schemes are relevant for structured data, namely DKIM
+   (see [RFC6376]) and JWS (see [RFC7515]).  Both connect particular
+   message content to a signer, ie. a MUA can trust that the content
+   comes from that source, but not whether that source is itself
+   trustworthy.
+
+   This document does not offer any advice on how to assess whether a
+   particular sender/signer is trustworthy or not.
+
+   For DKIM, the entire message is signed, as usual.
+
+   For JWS, a part of the message may be signed, typically only the
+   structured data.
+
+   Open issue 1: Use detached content as defined in RFC7515 appendix F?
+   That's nicely parsable, the signature is a plain extra, next to the
+   JSON-LD.
+
+   Open issue 2: Use bytewise comparison as described in [RFC7515], or
+   the canonical format described in [RFC8785]?
+
+   (Arnt's preliminary position: yes to detached for a plainer
+   transition path from gmail++'s current format, no to 8785 since
+   AFAICT the most common modifications made en route are to change URLs
+   to some antivirus mitm.)
+
+4.3.  Inlining data
 
    Structured data included in an email message SHOULD be self-contained
    in order to avoid privacy problems.  This implies that if an MUA is
@@ -281,8 +313,11 @@ Table of Contents
 
 8.2.  Informative References
 
-   [I-D.sml-structured-email]
-              "*** BROKEN REFERENCE ***".
+   [I-D.ietf-sml-structured-email]
+              Happel, H., "Structured Email", Work in Progress,
+              Internet-Draft, draft-ietf-sml-structured-email-06, 1 June
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              sml-structured-email-06>.
 
    [RFC5228]  Guenther, P., Ed. and T. Showalter, Ed., "Sieve: An Email
               Filtering Language", RFC 5228, DOI 10.17487/RFC5228,
@@ -296,10 +331,24 @@ Table of Contents
               Stored Lists", RFC 6134, DOI 10.17487/RFC6134, July 2011,
               <https://www.rfc-editor.org/rfc/rfc6134>.
 
+   [RFC6376]  Crocker, D., Ed., Hansen, T., Ed., and M. Kucherawy, Ed.,
+              "DomainKeys Identified Mail (DKIM) Signatures", STD 76,
+              RFC 6376, DOI 10.17487/RFC6376, September 2011,
+              <https://www.rfc-editor.org/rfc/rfc6376>.
+
+   [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
+              2015, <https://www.rfc-editor.org/rfc/rfc7515>.
+
    [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
               Code: The Implementation Status Section", BCP 205,
               RFC 7942, DOI 10.17487/RFC7942, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7942>.
+
+   [RFC8785]  Rundgren, A., Jordan, B., and S. Erdtman, "JSON
+              Canonicalization Scheme (JCS)", RFC 8785,
+              DOI 10.17487/RFC8785, June 2020,
+              <https://www.rfc-editor.org/rfc/rfc8785>.
 
    [CalSpam]  "Calendar operator practices — Guidelines to protect
               against calendar abuse", n.d.,
