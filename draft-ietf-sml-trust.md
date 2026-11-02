@@ -28,11 +28,14 @@ author:
 normative:
 
 informative:
-  I-D.sml-structured-email:
+  I-D.ietf-sml-structured-email:
   RFC5228:
   RFC6132:
   RFC6134:
+  RFC6376:
+  RFC7515:
   RFC7942:
+  RFC8785:
   CalSpam:
     target: https://standards.calconnect.org/csd/cc-18003.html
     title: Calendar operator practices — Guidelines to protect against calendar abuse
@@ -51,7 +54,7 @@ data in email messages.
 
 # Introduction
 
-Structured email, as described in {{I-D.sml-structured-email}},
+Structured email, as described in {{I-D.ietf-sml-structured-email}},
 makes the content of some email messages machine-readable, such that
 user agents can provide higher-level functions than
 displaying/replying, for example "add this to calendar".
@@ -189,8 +192,14 @@ any of these criteria hold:
 * Only for MUAs that process calendar invitations/updates: The MUA
   would process a calendar invitation in the same message.
 
-* The sender is trusted (e.g., part of the user's address book) and
-  the messsage contains a valid personal or domain signature.
+* The sender is trusted and the message contains a valid personal or
+  domain signature. (This document does not describe any conditions for
+  whether to trust senders.)
+
+* The sender is trusted and the message contains a valid personal or
+  domain DKIM signature (see {{RFC6376}}).
+
+* The structured data is signed using JWS and the signer is trusted.
 
 * The message is part of an ongoing thread with a trusted sender.
 
@@ -204,8 +213,32 @@ benefit from additional precautions before acting on the message.
 Documents that specify such data types should discuss how recipients
 should decide whether to act.
 
-Open issue: At some point this document needs to mention JSON Web
-Signatures and RFC 7519, ether to use or to ignore.
+## Signatures
+
+Two signature schemes are relevant for structured data, namely DKIM (see
+{{RFC6376}}) and JWS (see {{RFC7515}}). Both connect particular message
+content to a signer, ie. a MUA can trust that the content comes from that
+source, but not whether that source is itself trustworthy.
+
+This document does not offer any advice on how to assess whether a
+particular sender/signer is trustworthy or not.
+
+For DKIM, the entire message is signed, as usual.
+
+For JWS, a part of the message may be signed, typically only the
+structured data.
+
+Open issue 1: Use detached content as defined in RFC7515 appendix F?
+That's nicely parsable, the signature is a plain extra, next to the
+JSON-LD.
+
+Open issue 2: Use bytewise comparison as described in {{RFC7515}}, or the
+canonical format described in {{RFC8785}}?
+
+(Arnt's preliminary position: yes to detached for a plainer transition
+path from gmail++'s current format, no to 8785 since AFAICT the most
+common modifications made en route are to change URLs to some antivirus
+mitm.)
 
 ## Inlining data
 
